@@ -47,7 +47,7 @@ If your video is longer than ~81 frames (3.3 seconds at 24fps), do **not** run t
    ```
 5. Grab a coffee. The script will automatically slice your video, queue the API prompts, wait for completion, and stich them together with `ffmpeg`.
 
-## 💡 Practical Tips (Learned the Hard Way)
+## 💡 Practical Tips
 
 *   **Reference frame per chunk:** For best identity/consistency results, don't reuse one global reference image. Export the keyframe you detect on, retouch it (apply your intended change to that still), and load it as the reference. When you continue with the next chunk (e.g. after the first 81 frames), repeat the process: grab a frame from the new chunk and retouch it again.
 *   **Keep denoise lower than you'd expect:** Wan 2.1 VACE blends edits into the scene very aggressively. At high denoise values it integrates the change so well that it practically hides it. Lower the denoise until the edit stays clearly visible while still matching lighting and motion.
