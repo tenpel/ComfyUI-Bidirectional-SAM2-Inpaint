@@ -47,5 +47,16 @@ If your video is longer than ~81 frames (3.3 seconds at 24fps), do **not** run t
    ```
 5. Grab a coffee. The script will automatically slice your video, queue the API prompts, wait for completion, and stich them together with `ffmpeg`.
 
-## 📖 Wiki / Technical Details
-*(Add links to detailed Wiki pages regarding the bidirectional python logic and VACE NaN handling here)*
+## 💡 Practical Tips (Learned the Hard Way)
+
+*   **Reference frame per chunk:** For best identity/consistency results, don't reuse one global reference image. Export the keyframe you detect on, retouch it (apply your intended change to that still), and load it as the reference. When you continue with the next chunk (e.g. after the first 81 frames), repeat the process: grab a frame from the new chunk and retouch it again.
+*   **Keep denoise lower than you'd expect:** Wan 2.1 VACE blends edits into the scene very aggressively. At high denoise values it integrates the change so well that it practically hides it. Lower the denoise until the edit stays clearly visible while still matching lighting and motion.
+*   **Mask growth + blur:** A few pixels of mask expansion with feathered edges makes the seams disappear.
+
+## ⚖️ Responsible Use
+
+This pipeline can modify people's appearance in video. It is intended for creative and VFX work on footage you have the rights to use — costume/prop replacement, previsualization, restoration, and similar tasks. Do not use it to create misleading content or to depict real people without their consent. You are responsible for complying with the laws of your jurisdiction.
+
+## 📜 License
+
+This repository is licensed under the [MIT License](LICENSE). The patched `nodes.py` under `custom_nodes_patch/ComfyUI-segment-anything-2/` originates from [kijai/ComfyUI-segment-anything-2](https://github.com/kijai/ComfyUI-segment-anything-2) and remains under the Apache License 2.0 (see the LICENSE file in that folder).
